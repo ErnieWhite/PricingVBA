@@ -144,6 +144,32 @@ Sub GlblFormatColumns(ws As Worksheet)
     Selection.NumberFormat = "0.000"
 End Sub
 
+Sub ConvertPriceSheetDataToNumbers(ws As Worksheet)
+'
+' Macro2 Macro
+'
+
+'
+    
+    Dim lastRow As Long
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    
+    Dim data As Variant
+    data = Range("AC2:AF" & lastRow).Value2
+        
+    Dim i As Long
+    Dim j As Long
+    For i = LBound(data, 1) To UBound(data, 1)
+        For j = LBound(data, 2) To UBound(data, 2)
+            data(i, j) = Val(data(i, j))
+        Next j
+    Next i
+    
+    Range("AC2:AF" & lastRow) = data
+    
+End Sub
+
+
 Sub GlblAutoFilter(ws As Worksheet)
 '
 ' Macro3 Macro
@@ -267,6 +293,7 @@ Attribute Setup_PDW2Extract_For_GLBL.VB_ProcData.VB_Invoke_Func = " \n14"
     GlblCMPFormula ws
     GlblFormatColumns ws
     GlblCMPMarginFormula ws
+    ConvertPriceSheetDataToNumbers ws
     
     ws.Cells.EntireColumn.AutoFit
     
